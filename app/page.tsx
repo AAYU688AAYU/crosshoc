@@ -372,7 +372,10 @@ function getPrice(game: Game) {
   const base = basePriceByGenre[game.genre];
   const recencyAdjustment = game.year === 2025 ? 0 : -8;
   const parityAdjustment = game.id % 2 === 0 ? 2 : 0;
-  const value = Math.max(12, Math.floor((base + recencyAdjustment + parityAdjustment) * 0.35));
+  const value = Math.max(
+    12,
+    Math.floor((base + recencyAdjustment + parityAdjustment) * 0.35),
+  );
   return `${value}.99`;
 }
 
