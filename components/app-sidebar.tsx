@@ -15,7 +15,33 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, LifeBuoyIcon, SendIcon, FrameIcon, PieChartIcon, MapIcon, TerminalIcon } from "lucide-react"
+import {
+  TerminalSquareIcon,
+  BotIcon,
+  LifeBuoyIcon,
+  SendIcon,
+  FrameIcon,
+  PieChartIcon,
+  MapIcon,
+  TerminalIcon,
+  CalendarDaysIcon,
+  CalendarIcon,
+  CalendarClockIcon,
+  TrophyIcon,
+  TrendingUpIcon,
+  ListOrderedIcon,
+  MonitorIcon,
+  StoreIcon,
+  LibraryIcon,
+  SwordsIcon,
+  BrainIcon,
+  ScrollIcon,
+  CrosshairIcon,
+  CompassIcon,
+  PuzzleIcon,
+  CarIcon,
+  DumbbellIcon,
+} from "lucide-react"
 
 const data = {
   user: {
@@ -30,10 +56,10 @@ const data = {
     icon: <TerminalSquareIcon />,
     isActive: true,
     items: [
-      { title: "Last 30 days", url: "#" },
-      { title: "This week", url: "#" },
-      { title: "Next week", url: "#" },
-      { title: "Release calendar", url: "#" },
+      { title: "Last 30 days", url: "#", icon: <CalendarDaysIcon /> },
+      { title: "This week", url: "#", icon: <CalendarIcon /> },
+      { title: "Next week", url: "#", icon: <CalendarClockIcon /> },
+      { title: "Release calendar", url: "#", icon: <CalendarIcon /> },
     ],
   },
   {
@@ -41,9 +67,9 @@ const data = {
     url: "#",
     icon: <PieChartIcon />,
     items: [
-      { title: "Best of the year", url: "#" },
-      { title: "Popular in 2025", url: "#" },
-      { title: "All time top 250", url: "#" },
+      { title: "Best of the year", url: "#", icon: <TrophyIcon /> },
+      { title: "Popular in 2025", url: "#", icon: <TrendingUpIcon /> },
+      { title: "All time top 250", url: "#", icon: <ListOrderedIcon /> },
     ],
   },
   {
@@ -51,9 +77,9 @@ const data = {
     url: "#",
     icon: <MapIcon />,
     items: [
-      { title: "Platforms", url: "#" },
-      { title: "Stores", url: "#" },
-      { title: "Collections", url: "#" },
+      { title: "Platforms", url: "#", icon: <MonitorIcon /> },
+      { title: "Stores", url: "#", icon: <StoreIcon /> },
+      { title: "Collections", url: "#", icon: <LibraryIcon /> },
     ],
   },
   {
@@ -61,14 +87,14 @@ const data = {
     url: "#",
     icon: <BotIcon />,
     items: [
-      { title: "Action", url: "#" },
-      { title: "Strategy", url: "#" },
-      { title: "RPG", url: "#" },
-      { title: "Shooter", url: "#" },
-      { title: "Adventure", url: "#" },
-      { title: "Puzzle", url: "#" },
-      { title: "Racing", url: "#" },
-      { title: "Sports", url: "#" },
+      { title: "Action", url: "#", icon: <SwordsIcon /> },
+      { title: "Strategy", url: "#", icon: <BrainIcon /> },
+      { title: "RPG", url: "#", icon: <ScrollIcon /> },
+      { title: "Shooter", url: "#", icon: <CrosshairIcon /> },
+      { title: "Adventure", url: "#", icon: <CompassIcon /> },
+      { title: "Puzzle", url: "#", icon: <PuzzleIcon /> },
+      { title: "Racing", url: "#", icon: <CarIcon /> },
+      { title: "Sports", url: "#", icon: <DumbbellIcon /> },
     ],
   },
 ],
