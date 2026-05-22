@@ -1,15 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  ArrowLeftIcon,
-  CalendarIcon,
-  ReceiptTextIcon,
-  StarIcon,
-} from "lucide-react";
+import { ArrowLeftIcon, CalendarIcon, StarIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { basePriceByGenre, games } from "@/constants/catalog";
+import { games } from "@/constants/catalog";
 import { genreIconComponents } from "@/constants/sidebar";
 import { GameDeckControls } from "@/components/game-deck-controls";
 
@@ -19,18 +14,6 @@ type PageProps = {
 
 function getGameImage(id: number) {
   return `https://picsum.photos/seed/crosshoc-${id}/1200/675`;
-}
-
-function getPrice(genre: (typeof games)[number]["genre"], id: number, year: number) {
-  const base = basePriceByGenre[genre];
-  const recencyAdjustment = year === 2025 ? 0 : -8;
-  const parityAdjustment = id % 2 === 0 ? 2 : 0;
-  const value = Math.max(
-    12,
-    Math.floor((base + recencyAdjustment + parityAdjustment) * 0.35),
-  );
-
-  return `${value}.99`;
 }
 
 export default async function GameDetailsPage({ params }: PageProps) {
@@ -61,9 +44,9 @@ export default async function GameDetailsPage({ params }: PageProps) {
         </Link>
       </div>
 
-      <div className="space-y-4">
-        <Card className="overflow-hidden border-border/80 bg-card/70">
-          <div className="relative aspect-video w-full max-h-80 border-b border-border/70 bg-muted">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(360px,1fr)] xl:items-stretch">
+        <Card className="overflow-hidden border-border/80 bg-card/70 gap-0 py-0">
+          <div className="relative aspect-video w-full max-h-64 border-b border-border/70 bg-muted md:max-h-72">
             <Image
               src={getGameImage(game.id)}
               alt={`${game.title} cover art`}
@@ -74,7 +57,7 @@ export default async function GameDetailsPage({ params }: PageProps) {
             />
           </div>
 
-          <CardHeader className="space-y-3">
+          <CardHeader className="space-y-3 pt-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <CardTitle className="text-2xl tracking-tight">
                 {game.title}
@@ -90,14 +73,14 @@ export default async function GameDetailsPage({ params }: PageProps) {
             <p className="text-sm text-muted-foreground">{game.description}</p>
           </CardHeader>
 
-          <CardContent>
-            <div className="grid gap-4 sm:grid-cols-3">
+          <CardContent className="pb-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-lg border border-border/70 bg-background/70 p-4">
                 <p className="inline-flex items-center gap-1 text-xs uppercase tracking-wide text-muted-foreground">
                   <StarIcon className="size-3" />
                   Average rating
                 </p>
-                <p className="mt-2 text-4xl font-semibold leading-none text-foreground">
+                <p className="mt-2 text-3xl font-semibold leading-none text-foreground md:text-4xl">
                   {game.rating.toFixed(1)}
                 </p>
               </div>
@@ -106,24 +89,17 @@ export default async function GameDetailsPage({ params }: PageProps) {
                   <CalendarIcon className="size-3" />
                   Release year
                 </p>
-                <p className="mt-2 text-4xl font-semibold leading-none text-foreground">
+                <p className="mt-2 text-3xl font-semibold leading-none text-foreground md:text-4xl">
                   {game.year}
-                </p>
-              </div>
-              <div className="rounded-lg border border-border/70 bg-background/70 p-4">
-                <p className="inline-flex items-center gap-1 text-xs uppercase tracking-wide text-muted-foreground">
-                  <ReceiptTextIcon className="size-3" />
-                  Lease price
-                </p>
-                <p className="mt-2 text-4xl font-semibold leading-none text-foreground">
-                  ${getPrice(game.genre, game.id, game.year)}/mo
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <GameDeckControls game={game} />
+        <div className="xl:h-full">
+          <GameDeckControls game={game} className="xl:h-full" />
+        </div>
       </div>
     </div>
   );

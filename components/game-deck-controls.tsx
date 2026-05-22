@@ -6,17 +6,19 @@ import {
   CalculatorIcon,
   CopyIcon,
   DollarSignIcon,
+  PackageIcon,
   PlusIcon,
-  ShoppingCartIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { basePriceByGenre, type Game } from "@/constants/catalog";
+import { cn } from "@/lib/utils";
 
 type GameDeckControlsProps = {
-  game: Game
-}
+  game: Game;
+  className?: string;
+};
 
 const leasePeriods = [1, 3, 6, 12] as const
 
@@ -46,20 +48,21 @@ function getLeasePeriodPrice(game: Game, months: (typeof leasePeriods)[number]) 
   return Math.max(12, Math.round(discountedTotal))
 }
 
-export function GameDeckControls({ game }: GameDeckControlsProps) {
-  const [leasePeriod, setLeasePeriod] = React.useState<(typeof leasePeriods)[number]>(3)
-  const [copies, setCopies] = React.useState(1)
-  const [added, setAdded] = React.useState(false)
+export function GameDeckControls({ game, className }: GameDeckControlsProps) {
+  const [leasePeriod, setLeasePeriod] =
+    React.useState<(typeof leasePeriods)[number]>(3);
+  const [copies, setCopies] = React.useState(1);
+  const [added, setAdded] = React.useState(false);
 
-  const monthlyPrice = getLeasePrice(game)
-  const selectedPeriodPrice = getLeasePeriodPrice(game, leasePeriod)
+  const monthlyPrice = getLeasePrice(game);
+  const selectedPeriodPrice = getLeasePeriodPrice(game, leasePeriod);
 
   return (
-    <Card className="border-border/80 bg-card/70">
+    <Card className={cn("border-border/80 bg-card/70 h-full", className)}>
       <CardHeader className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle className="inline-flex items-center gap-1.5 text-base">
-            <ShoppingCartIcon className="size-4" />
+            <PackageIcon className="size-4" />
             Deck
           </CardTitle>
         </div>
@@ -68,7 +71,7 @@ export function GameDeckControls({ game }: GameDeckControlsProps) {
           your Deck.
         </p>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="flex flex-1 flex-col gap-6">
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
             <span className="inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -76,7 +79,8 @@ export function GameDeckControls({ game }: GameDeckControlsProps) {
               Lease period
             </span>
             <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-              <DollarSignIcon className="size-3.5" />${monthlyPrice}/mo per copy
+              <DollarSignIcon className="size-3.5" />
+              {monthlyPrice}/mo per copy
             </span>
           </div>
           <div className="flex flex-wrap gap-2">
