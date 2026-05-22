@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { StarIcon } from "lucide-react";
+import { ArrowUpDownIcon, FilterIcon, StarIcon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -168,7 +168,7 @@ function GameCard({ game }: { game: Game }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3 pb-5 pt-0">
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        <div className="flex flex-wrap items-center justify-end gap-2 text-xs">
           <Badge variant="secondary" className="font-medium text-foreground/80">
             {game.genre}
           </Badge>
@@ -235,7 +235,8 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           </div>
           <div className="flex flex-col gap-3 rounded-xl border border-border/70 bg-card/50 p-3">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <FilterIcon className="size-3.5" />
                 Filter
               </span>
               {filterChips.map((item) => {
@@ -255,7 +256,8 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               })}
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <ArrowUpDownIcon className="size-3.5" />
                 Order by
               </span>
               {sortOptions.map((item) => {
