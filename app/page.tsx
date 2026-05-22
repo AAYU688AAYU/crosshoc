@@ -1,5 +1,24 @@
 import Image from "next/image";
-import { ArrowUpDownIcon, FilterIcon, StarIcon } from "lucide-react";
+import {
+  AArrowDownIcon,
+  ArrowUpDownIcon,
+  CalendarDaysIcon,
+  Clock3Icon,
+  CompassIcon,
+  CrosshairIcon,
+  DumbbellIcon,
+  FilterIcon,
+  FlameIcon,
+  LayoutGridIcon,
+  BrainIcon,
+  CarIcon,
+  PuzzleIcon,
+  ScrollIcon,
+  SparklesIcon,
+  StarIcon,
+  SwordsIcon,
+  type LucideIcon,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -220,6 +239,24 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     { label: "All", value: undefined },
     ...genres.map((genreName) => ({ label: genreName, value: genreName })),
   ];
+  const genreIconMap: Record<Game["genre"], LucideIcon> = {
+    Action: SwordsIcon,
+    Strategy: BrainIcon,
+    RPG: ScrollIcon,
+    Shooter: CrosshairIcon,
+    Adventure: CompassIcon,
+    Puzzle: PuzzleIcon,
+    Racing: CarIcon,
+    Sports: DumbbellIcon,
+  };
+  const sortOptionIcons: Record<SortKey, LucideIcon> = {
+    relevance: SparklesIcon,
+    "date-added": Clock3Icon,
+    name: AArrowDownIcon,
+    "release-date": CalendarDaysIcon,
+    popularity: FlameIcon,
+    "average-rating": StarIcon,
+  };
 
   return (
     <div className="px-6 pb-10 pt-2 md:px-10">
@@ -241,6 +278,9 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               </span>
               {filterChips.map((item) => {
                 const active = (genre ?? undefined) === item.value;
+                const Icon = item.value
+                  ? genreIconMap[item.value as Game["genre"]]
+                  : LayoutGridIcon;
                 return (
                   <a
                     key={item.label}
@@ -250,7 +290,8 @@ export default async function DashboardPage({ searchParams }: PageProps) {
                     })}
                     className={getChipButtonClass(active)}
                   >
-                    {item.label}
+                    <Icon className="size-3.5" />
+                    <span>{item.label}</span>
                   </a>
                 );
               })}
@@ -262,13 +303,15 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               </span>
               {sortOptions.map((item) => {
                 const active = sort === item.value;
+                const Icon = sortOptionIcons[item.value];
                 return (
                   <a
                     key={item.value}
                     href={buildHref(resolvedSearchParams, { sort: item.value })}
                     className={getChipButtonClass(active)}
                   >
-                    {item.label}
+                    <Icon className="size-3.5" />
+                    <span>{item.label}</span>
                   </a>
                 );
               })}
