@@ -58,8 +58,8 @@ export function GameDeckControls({ game, className }: GameDeckControlsProps) {
   const selectedPeriodPrice = getLeasePeriodPrice(game, leasePeriod);
 
   return (
-    <Card className={cn("border-border/80 bg-card/70 h-full", className)}>
-      <CardHeader className="space-y-2">
+    <Card className={cn("border-border/80 bg-card/70", className)}>
+      <CardHeader className="space-y-3 pb-1">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle className="inline-flex items-center gap-1.5 text-base">
             <PackageIcon className="size-4" />
@@ -71,7 +71,7 @@ export function GameDeckControls({ game, className }: GameDeckControlsProps) {
           your Deck.
         </p>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col gap-6">
+      <CardContent className="flex flex-col gap-6">
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
             <span className="inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -83,7 +83,7 @@ export function GameDeckControls({ game, className }: GameDeckControlsProps) {
               {monthlyPrice}/mo per copy
             </span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {leasePeriods.map((months) => {
               const active = leasePeriod === months;
               const periodPrice = getLeasePeriodPrice(game, months);
@@ -94,7 +94,7 @@ export function GameDeckControls({ game, className }: GameDeckControlsProps) {
                   type="button"
                   variant={active ? "default" : "outline"}
                   size="sm"
-                  className="h-auto flex-col items-start gap-0.5 px-3 py-2 text-left"
+                  className="h-auto w-full flex-col items-start gap-0.5 px-3 py-2 text-left"
                   onClick={() => setLeasePeriod(months)}
                 >
                   <span>
@@ -153,7 +153,7 @@ export function GameDeckControls({ game, className }: GameDeckControlsProps) {
           </Button>
         </div>
 
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border/70 bg-background/70 px-3 py-2 text-sm">
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border/70 bg-background/70 px-3 py-2 text-sm">
           <span className="inline-flex items-center gap-1 text-muted-foreground">
             <CalculatorIcon className="size-3.5" />
             Estimated total
