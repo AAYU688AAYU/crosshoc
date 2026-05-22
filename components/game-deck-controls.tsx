@@ -1,6 +1,14 @@
 "use client"
 
 import * as React from "react"
+import {
+  CalendarDaysIcon,
+  CalculatorIcon,
+  CopyIcon,
+  DollarSignIcon,
+  PlusIcon,
+  ShoppingCartIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -50,26 +58,31 @@ export function GameDeckControls({ game }: GameDeckControlsProps) {
     <Card className="border-border/80 bg-card/70">
       <CardHeader className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <CardTitle className="text-base">Deck</CardTitle>
+          <CardTitle className="inline-flex items-center gap-1.5 text-base">
+            <ShoppingCartIcon className="size-4" />
+            Deck
+          </CardTitle>
         </div>
         <p className="text-sm text-muted-foreground">
-          Choose a lease period and number of copies before adding this game to your Deck.
+          Choose a lease period and number of copies before adding this game to
+          your Deck.
         </p>
       </CardHeader>
-      <CardContent className="space-y-5">
-        <div className="space-y-2">
+      <CardContent className="space-y-6">
+        <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <span className="inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <CalendarDaysIcon className="size-3.5" />
               Lease period
             </span>
-            <span className="text-xs text-muted-foreground">
-              ${monthlyPrice}/mo per copy
+            <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+              <DollarSignIcon className="size-3.5" />${monthlyPrice}/mo per copy
             </span>
           </div>
           <div className="flex flex-wrap gap-2">
             {leasePeriods.map((months) => {
-              const active = leasePeriod === months
-              const periodPrice = getLeasePeriodPrice(game, months)
+              const active = leasePeriod === months;
+              const periodPrice = getLeasePeriodPrice(game, months);
 
               return (
                 <Button
@@ -87,14 +100,21 @@ export function GameDeckControls({ game }: GameDeckControlsProps) {
                     ${periodPrice}
                   </span>
                 </Button>
-              )
+              );
             })}
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+        <div className="grid gap-4 sm:grid-cols-[auto_1fr_auto] sm:items-end">
+          <label
+            className="inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:pb-2"
+            htmlFor="copies"
+          >
+            <CopyIcon className="size-3.5" />
+            Copies
+          </label>
           <div className="space-y-2">
-            <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground" htmlFor="copies">
+            <label className="sr-only" htmlFor="copies">
               Copies
             </label>
             <Input
@@ -104,25 +124,33 @@ export function GameDeckControls({ game }: GameDeckControlsProps) {
               max={9}
               value={copies}
               onChange={(event) => {
-                const nextCopies = Number(event.target.value)
-                setCopies(Number.isFinite(nextCopies) && nextCopies > 0 ? nextCopies : 1)
-                setAdded(false)
+                const nextCopies = Number(event.target.value);
+                setCopies(
+                  Number.isFinite(nextCopies) && nextCopies > 0
+                    ? nextCopies
+                    : 1,
+                );
+                setAdded(false);
               }}
-              className="max-w-32"
+              className="max-w-56"
             />
           </div>
 
           <Button
             type="button"
             onClick={() => setAdded(true)}
-            className="sm:min-w-40"
+            className="sm:min-w-44"
           >
+            <PlusIcon className="size-4" />
             Add to Deck
           </Button>
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border/70 bg-background/70 px-3 py-2 text-sm">
-          <span className="text-muted-foreground">Estimated total</span>
+          <span className="inline-flex items-center gap-1 text-muted-foreground">
+            <CalculatorIcon className="size-3.5" />
+            Estimated total
+          </span>
           <span className="font-semibold text-foreground">
             ${selectedPeriodPrice * copies}
           </span>
@@ -130,10 +158,11 @@ export function GameDeckControls({ game }: GameDeckControlsProps) {
 
         {added ? (
           <p className="text-sm text-foreground">
-            Added {copies} {copies === 1 ? "copy" : "copies"} for {leasePeriod} {leasePeriod === 1 ? "month" : "months"}.
+            Added {copies} {copies === 1 ? "copy" : "copies"} for {leasePeriod}{" "}
+            {leasePeriod === 1 ? "month" : "months"}.
           </p>
         ) : null}
       </CardContent>
     </Card>
-  )
+  );
 }

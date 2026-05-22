@@ -3,11 +3,14 @@ import Link from "next/link";
 import {
   AArrowDownIcon,
   ArrowUpDownIcon,
+  CalendarIcon,
   CalendarDaysIcon,
   Clock3Icon,
   FilterIcon,
   FlameIcon,
   LayoutGridIcon,
+  ListIcon,
+  ReceiptTextIcon,
   SparklesIcon,
   StarIcon,
   type LucideIcon,
@@ -197,9 +200,12 @@ function GameCard({ game }: { game: Game }) {
             </Badge>
           </div>
           <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>{game.year}</span>
-            <span className="text-sm font-semibold text-foreground">
-              ${getPrice(game)}/mo
+            <span className="inline-flex items-center gap-1">
+              <CalendarIcon className="size-3.5" />
+              {game.year}
+            </span>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-foreground">
+              <ReceiptTextIcon className="size-3.5" />${getPrice(game)}/mo
             </span>
           </div>
         </CardContent>
@@ -261,7 +267,8 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             <h1 className="text-sm font-semibold tracking-tight text-foreground/90">
               {title}
             </h1>
-            <span className="text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+              <ListIcon className="size-3.5" />
               {visibleGames.length} active listings
             </span>
           </div>

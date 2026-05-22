@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeftIcon, StarIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  CalendarIcon,
+  ReceiptTextIcon,
+  StarIcon,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { basePriceByGenre, games } from "@/constants/catalog";
@@ -71,7 +76,9 @@ export default async function GameDetailsPage({ params }: PageProps) {
 
           <CardHeader className="space-y-3">
             <div className="flex flex-wrap items-start justify-between gap-3">
-              <CardTitle className="text-2xl tracking-tight">{game.title}</CardTitle>
+              <CardTitle className="text-2xl tracking-tight">
+                {game.title}
+              </CardTitle>
               <Badge
                 variant="secondary"
                 className="inline-flex items-center gap-1 font-medium text-foreground/80"
@@ -84,21 +91,33 @@ export default async function GameDetailsPage({ params }: PageProps) {
           </CardHeader>
 
           <CardContent>
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-lg border border-border/70 bg-background/70 p-3">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Average rating</p>
-                <p className="mt-1 inline-flex items-center gap-1 text-lg font-semibold text-foreground">
-                  <StarIcon className="size-4" />
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="rounded-lg border border-border/70 bg-background/70 p-4">
+                <p className="inline-flex items-center gap-1 text-xs uppercase tracking-wide text-muted-foreground">
+                  <StarIcon className="size-3" />
+                  Average rating
+                </p>
+                <p className="mt-2 text-4xl font-semibold leading-none text-foreground">
                   {game.rating.toFixed(1)}
                 </p>
               </div>
-              <div className="rounded-lg border border-border/70 bg-background/70 p-3">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Release year</p>
-                <p className="mt-1 text-lg font-semibold text-foreground">{game.year}</p>
+              <div className="rounded-lg border border-border/70 bg-background/70 p-4">
+                <p className="inline-flex items-center gap-1 text-xs uppercase tracking-wide text-muted-foreground">
+                  <CalendarIcon className="size-3" />
+                  Release year
+                </p>
+                <p className="mt-2 text-4xl font-semibold leading-none text-foreground">
+                  {game.year}
+                </p>
               </div>
-              <div className="rounded-lg border border-border/70 bg-background/70 p-3">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Lease price</p>
-                <p className="mt-1 text-lg font-semibold text-foreground">${getPrice(game.genre, game.id, game.year)}/mo</p>
+              <div className="rounded-lg border border-border/70 bg-background/70 p-4">
+                <p className="inline-flex items-center gap-1 text-xs uppercase tracking-wide text-muted-foreground">
+                  <ReceiptTextIcon className="size-3" />
+                  Lease price
+                </p>
+                <p className="mt-2 text-4xl font-semibold leading-none text-foreground">
+                  ${getPrice(game.genre, game.id, game.year)}/mo
+                </p>
               </div>
             </div>
           </CardContent>
