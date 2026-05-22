@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeftIcon, StarIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { basePriceByGenre, games } from "@/constant/catalog";
-import { genreIconComponents } from "@/constant/sidebar";
+import { basePriceByGenre, games } from "@/constants/catalog";
+import { genreIconComponents } from "@/constants/sidebar";
 import { GameDeckControls } from "@/components/game-deck-controls";
 
 type PageProps = {

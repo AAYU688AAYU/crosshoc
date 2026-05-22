@@ -15,7 +15,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { TerminalIcon } from "lucide-react";
-import { sidebarData } from "@/constant/sidebar";
+import { sidebarData } from "@/constants/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (

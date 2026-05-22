@@ -27,8 +27,8 @@ import {
   sortOptions,
   type Game,
   type SortKey,
-} from "@/constant/catalog";
-import { genreIconComponents } from "@/constant/sidebar";
+} from "@/constants/catalog";
+import { genreIconComponents } from "@/constants/sidebar";
 import { cn } from "@/lib/utils";
 
 type PageProps = {
@@ -160,7 +160,7 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 function GameCard({ game }: { game: Game }) {
-  const GenreIcon = genreIconComponents[game.genre]
+  const GenreIcon = genreIconComponents[game.genre];
 
   return (
     <Link
