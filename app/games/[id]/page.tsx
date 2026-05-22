@@ -1,10 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeftIcon, CalendarIcon, StarIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  CalendarIcon,
+  MessageSquareTextIcon,
+  StarIcon,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { games } from "@/constants/catalog";
+import { getReviewsForGame } from "@/constants/reviews";
 import { genreIconComponents } from "@/constants/sidebar";
 import { GameDeckControls } from "@/components/game-deck-controls";
 
@@ -31,6 +38,7 @@ export default async function GameDetailsPage({ params }: PageProps) {
   }
 
   const GenreIcon = genreIconComponents[game.genre];
+  const reviews = getReviewsForGame(game);
 
   return (
     <div className="px-6 pb-10 pt-2 md:px-10">
@@ -101,6 +109,53 @@ export default async function GameDetailsPage({ params }: PageProps) {
           <GameDeckControls game={game} className="xl:h-full" />
         </div>
       </div>
+
+      <Card className="mt-4 border-border/80 bg-card/70">
+        <CardHeader className="space-y-2">
+          <CardTitle className="inline-flex items-center gap-2 text-lg">
+            <MessageSquareTextIcon className="size-4" />
+            Reviews
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            What players are saying about {game.title}.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {reviews.map((review) => (
+              <div
+                key={review.id}
+                className="rounded-lg border border-border/70 bg-background/70 p-4"
+              >
+                <div className="mb-2 flex items-start justify-between gap-2">
+                  <div className="inline-flex items-center gap-2">
+                    <Avatar size="sm">
+                      <AvatarImage
+                        src={review.avatar}
+                        alt={`${review.author} avatar`}
+                      />
+                      <AvatarFallback>
+                        {review.author.slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <p className="text-sm font-medium text-foreground">
+                      {review.author}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
+                    <StarIcon className="size-3" />
+                    {review.rating.toFixed(1)}
+                  </span>
+                </div>
+                <p className="mb-2 text-xs text-muted-foreground">
+                  {review.postedOn}
+                </p>
+                <p className="text-sm text-foreground/90">{review.comment}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
