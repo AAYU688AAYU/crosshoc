@@ -21,6 +21,28 @@ import {
   DumbbellIcon,
 } from "lucide-react"
 
+export const genreIconComponents = {
+  Action: SwordsIcon,
+  Strategy: BrainIcon,
+  RPG: ScrollIcon,
+  Shooter: CrosshairIcon,
+  Adventure: CompassIcon,
+  Puzzle: PuzzleIcon,
+  Racing: CarIcon,
+  Sports: DumbbellIcon,
+} as const
+
+export const genreIconMap = {
+  Action: <SwordsIcon />,
+  Strategy: <BrainIcon />,
+  RPG: <ScrollIcon />,
+  Shooter: <CrosshairIcon />,
+  Adventure: <CompassIcon />,
+  Puzzle: <PuzzleIcon />,
+  Racing: <CarIcon />,
+  Sports: <DumbbellIcon />,
+} as const
+
 export const sidebarData = {
   user: {
     name: "shadcn",

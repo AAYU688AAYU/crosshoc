@@ -1,22 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   AArrowDownIcon,
   ArrowUpDownIcon,
   CalendarDaysIcon,
   Clock3Icon,
-  CompassIcon,
-  CrosshairIcon,
-  DumbbellIcon,
   FilterIcon,
   FlameIcon,
   LayoutGridIcon,
-  BrainIcon,
-  CarIcon,
-  PuzzleIcon,
-  ScrollIcon,
   SparklesIcon,
   StarIcon,
-  SwordsIcon,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -35,6 +28,7 @@ import {
   type Game,
   type SortKey,
 } from "@/constant/catalog";
+import { genreIconComponents } from "@/constant/sidebar";
 import { cn } from "@/lib/utils";
 
 type PageProps = {
@@ -166,40 +160,51 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 function GameCard({ game }: { game: Game }) {
+  const GenreIcon = genreIconComponents[game.genre]
+
   return (
-    <Card className="flex h-full min-w-0 flex-col gap-0 border-border/80 bg-card/70 p-0 shadow-none transition-colors hover:bg-accent/30">
-      <div className="relative aspect-video w-full overflow-hidden border-b border-border/70 bg-muted">
-        <Image
-          src={getGameImage(game)}
-          alt={`${game.title} cover art`}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover"
-        />
-      </div>
-      <CardHeader className="flex-1 pb-2 pt-4">
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="line-clamp-1 text-sm">{game.title}</CardTitle>
-          <StarRating rating={game.rating} />
+    <Link
+      href={`/games/${game.id}`}
+      className="group block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+    >
+      <Card className="flex h-full min-w-0 flex-col gap-0 border-border/80 bg-card/70 p-0 shadow-none transition-colors group-hover:bg-accent/30">
+        <div className="relative aspect-video w-full overflow-hidden border-b border-border/70 bg-muted">
+          <Image
+            src={getGameImage(game)}
+            alt={`${game.title} cover art`}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover"
+          />
         </div>
-        <CardDescription className="line-clamp-2 text-xs">
-          {game.description}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-3 pb-5 pt-0">
-        <div className="flex flex-wrap items-center justify-end gap-2 text-xs">
-          <Badge variant="secondary" className="font-medium text-foreground/80">
-            {game.genre}
-          </Badge>
-        </div>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>{game.year}</span>
-          <span className="text-sm font-semibold text-foreground">
-            ${getPrice(game)}/mo
-          </span>
-        </div>
-      </CardContent>
-    </Card>
+        <CardHeader className="flex-1 pb-2 pt-4">
+          <div className="flex items-start justify-between gap-2">
+            <CardTitle className="line-clamp-1 text-sm">{game.title}</CardTitle>
+            <StarRating rating={game.rating} />
+          </div>
+          <CardDescription className="line-clamp-2 text-xs">
+            {game.description}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3 pb-5 pt-0">
+          <div className="flex flex-wrap items-center justify-end gap-2 text-xs">
+            <Badge
+              variant="secondary"
+              className="inline-flex items-center gap-1 font-medium text-foreground/80"
+            >
+              <GenreIcon className="size-3.5" />
+              <span>{game.genre}</span>
+            </Badge>
+          </div>
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>{game.year}</span>
+            <span className="text-sm font-semibold text-foreground">
+              ${getPrice(game)}/mo
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 
@@ -239,16 +244,6 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     { label: "All", value: undefined },
     ...genres.map((genreName) => ({ label: genreName, value: genreName })),
   ];
-  const genreIconMap: Record<Game["genre"], LucideIcon> = {
-    Action: SwordsIcon,
-    Strategy: BrainIcon,
-    RPG: ScrollIcon,
-    Shooter: CrosshairIcon,
-    Adventure: CompassIcon,
-    Puzzle: PuzzleIcon,
-    Racing: CarIcon,
-    Sports: DumbbellIcon,
-  };
   const sortOptionIcons: Record<SortKey, LucideIcon> = {
     relevance: SparklesIcon,
     "date-added": Clock3Icon,
@@ -279,7 +274,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               {filterChips.map((item) => {
                 const active = (genre ?? undefined) === item.value;
                 const Icon = item.value
-                  ? genreIconMap[item.value as Game["genre"]]
+                  ? genreIconComponents[item.value as Game["genre"]]
                   : LayoutGridIcon;
                 return (
                   <a

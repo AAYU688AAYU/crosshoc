@@ -1,0 +1,139 @@
+"use client"
+
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { basePriceByGenre, type Game } from "@/constant/catalog"
+
+type GameDeckControlsProps = {
+  game: Game
+}
+
+const leasePeriods = [1, 3, 6, 12] as const
+
+const leasePeriodDiscounts: Record<(typeof leasePeriods)[number], number> = {
+  1: 1,
+  3: 0.95,
+  6: 0.9,
+  12: 0.85,
+}
+
+function getLeasePrice(game: Game) {
+  const base = basePriceByGenre[game.genre]
+  const recencyAdjustment = game.year === 2025 ? 0 : -8
+  const parityAdjustment = game.id % 2 === 0 ? 2 : 0
+  const value = Math.max(
+    12,
+    Math.floor((base + recencyAdjustment + parityAdjustment) * 0.35),
+  )
+
+  return value
+}
+
+function getLeasePeriodPrice(game: Game, months: (typeof leasePeriods)[number]) {
+  const monthlyPrice = getLeasePrice(game)
+  const discountedTotal = monthlyPrice * months * leasePeriodDiscounts[months]
+
+  return Math.max(12, Math.round(discountedTotal))
+}
+
+export function GameDeckControls({ game }: GameDeckControlsProps) {
+  const [leasePeriod, setLeasePeriod] = React.useState<(typeof leasePeriods)[number]>(3)
+  const [copies, setCopies] = React.useState(1)
+  const [added, setAdded] = React.useState(false)
+
+  const monthlyPrice = getLeasePrice(game)
+  const selectedPeriodPrice = getLeasePeriodPrice(game, leasePeriod)
+
+  return (
+    <Card className="border-border/80 bg-card/70">
+      <CardHeader className="space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle className="text-base">Deck</CardTitle>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Choose a lease period and number of copies before adding this game to your Deck.
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-5">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Lease period
+            </span>
+            <span className="text-xs text-muted-foreground">
+              ${monthlyPrice}/mo per copy
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {leasePeriods.map((months) => {
+              const active = leasePeriod === months
+              const periodPrice = getLeasePeriodPrice(game, months)
+
+              return (
+                <Button
+                  key={months}
+                  type="button"
+                  variant={active ? "default" : "outline"}
+                  size="sm"
+                  className="h-auto flex-col items-start gap-0.5 px-3 py-2 text-left"
+                  onClick={() => setLeasePeriod(months)}
+                >
+                  <span>
+                    {months} {months === 1 ? "month" : "months"}
+                  </span>
+                  <span className="text-[0.72rem] font-normal opacity-80">
+                    ${periodPrice}
+                  </span>
+                </Button>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+          <div className="space-y-2">
+            <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground" htmlFor="copies">
+              Copies
+            </label>
+            <Input
+              id="copies"
+              type="number"
+              min={1}
+              max={9}
+              value={copies}
+              onChange={(event) => {
+                const nextCopies = Number(event.target.value)
+                setCopies(Number.isFinite(nextCopies) && nextCopies > 0 ? nextCopies : 1)
+                setAdded(false)
+              }}
+              className="max-w-32"
+            />
+          </div>
+
+          <Button
+            type="button"
+            onClick={() => setAdded(true)}
+            className="sm:min-w-40"
+          >
+            Add to Deck
+          </Button>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border/70 bg-background/70 px-3 py-2 text-sm">
+          <span className="text-muted-foreground">Estimated total</span>
+          <span className="font-semibold text-foreground">
+            ${selectedPeriodPrice * copies}
+          </span>
+        </div>
+
+        {added ? (
+          <p className="text-sm text-foreground">
+            Added {copies} {copies === 1 ? "copy" : "copies"} for {leasePeriod} {leasePeriod === 1 ? "month" : "months"}.
+          </p>
+        ) : null}
+      </CardContent>
+    </Card>
+  )
+}
